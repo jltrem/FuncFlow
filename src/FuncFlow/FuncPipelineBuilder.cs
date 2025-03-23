@@ -1,78 +1,37 @@
 namespace FuncFlow;
 
-public interface IFuncPipelineBuilder<TContext>
+public interface IFuncPipelineBuilder
 {
-    IFuncPipelineBuilder<TContext> AddStep(StepFunc<TContext> stepFunc, string stepName = "");
-    IFuncPipelineBuilder<TContext> AddStep<T1>(StepFunc<TContext, T1> stepFunc, string stepName = "");
-    IFuncPipelineBuilder<TContext> AddStep<T1, T2>(StepFunc<TContext, T1, T2> stepFunc, string stepName = "");
-    IFuncPipelineBuilder<TContext> AddStep<T1, T2, T3>(StepFunc<TContext, T1, T2, T3> stepFunc, string stepName = "");
-    IFuncPipelineBuilder<TContext> AddAsyncStep(StepFuncAsync<TContext> stepFunc, string stepName = "");
-    IFuncPipelineBuilder<TContext> AddAsyncStep<T1>(StepFuncAsync<TContext, T1> stepFunc, string stepName = "");
-    IFuncPipelineBuilder<TContext> AddAsyncStep<T1, T2>(StepFuncAsync<TContext, T1, T2> stepFunc, string stepName = "");
-    IFuncPipelineBuilder<TContext> AddAsyncStep<T1, T2, T3>(StepFuncAsync<TContext, T1, T2, T3> stepFunc, string stepName = "");
+    IFuncPipelineBuilder AddStep(FuncPipelineStep step);
+    IFuncPipeline<TContext> Build<TContext>();
 }
 
-public class FuncPipelineBuilder<TContext> : IFuncPipelineBuilder<TContext>
+public class FuncPipelineBuilder : IFuncPipelineBuilder
 {
     private readonly IServiceProvider _provider;
     private readonly List<FuncPipelineStep> _steps = new();
+    
+    private bool _built;
 
     public FuncPipelineBuilder(IServiceProvider provider)
     {
         _provider = provider;
     }
 
-    public IFuncPipelineBuilder<TContext> AddStep(StepFunc<TContext> stepFunc, string stepName = "")
+    public IFuncPipelineBuilder AddStep(FuncPipelineStep step)
     {
-        _steps.Add(new FuncPipelineStep(stepFunc, [], stepName));
+        if (_built) throw new InvalidOperationException("FuncPipeline already built. Cannot add steps.");
+        if (step is null) throw new ArgumentNullException(nameof(step));
+        
+        _steps.Add(step);
         return this;
     }
 
-    public IFuncPipelineBuilder<TContext> AddStep<T1>(StepFunc<TContext, T1> stepFunc, string stepName = "")
+    public IFuncPipeline<TContext> Build<TContext>()
     {
-        _steps.Add(new FuncPipelineStep(stepFunc, [typeof(T1)], stepName));
-        return this;
-    }
-
-    public IFuncPipelineBuilder<TContext> AddStep<T1, T2>(StepFunc<TContext, T1, T2> stepFunc, string stepName = "")
-    {
-        _steps.Add(new FuncPipelineStep(stepFunc, [typeof(T1), typeof(T2)], stepName));
-        return this;
-    }
-
-    public IFuncPipelineBuilder<TContext> AddStep<T1, T2, T3>(StepFunc<TContext, T1, T2, T3> stepFunc, string stepName = "")
-    {
-        _steps.Add(new FuncPipelineStep(stepFunc, [typeof(T1), typeof(T2), typeof(T3)], stepName));
-        return this;
-    }
-
-    public IFuncPipelineBuilder<TContext> AddAsyncStep(StepFuncAsync<TContext> stepFunc, string stepName = "")
-    {
-        _steps.Add(new FuncPipelineStep(stepFunc, [], stepName));
-        return this;
-    }
-
-    public IFuncPipelineBuilder<TContext> AddAsyncStep<T1>(StepFuncAsync<TContext, T1> stepFunc, string stepName = "")
-    {
-        _steps.Add(new FuncPipelineStep(stepFunc, [typeof(T1)], stepName));
-        return this;
-    }
-
-    public IFuncPipelineBuilder<TContext> AddAsyncStep<T1, T2>(StepFuncAsync<TContext, T1, T2> stepFunc, string stepName = "")
-    {
-        _steps.Add(new FuncPipelineStep(stepFunc, [typeof(T1), typeof(T2)], stepName));
-        return this;
-    }
-
-    public IFuncPipelineBuilder<TContext> AddAsyncStep<T1, T2, T3>(StepFuncAsync<TContext, T1, T2, T3> stepFunc, string stepName = "")
-    {
-        _steps.Add(new FuncPipelineStep(stepFunc, [typeof(T1), typeof(T2), typeof(T3)], stepName));
-        return this;
-    }
-
-    public FuncPipeline<TContext> Build()
-    {
+        if (_built) throw new InvalidOperationException("FuncPipeline already built.");
+        _built = true;
+        
         return new FuncPipeline<TContext>(_provider, _steps);
     }
 }
-

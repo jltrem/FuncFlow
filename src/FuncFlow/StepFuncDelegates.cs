@@ -1,7 +1,6 @@
 ﻿namespace FuncFlow;
 
-
-// StepFunc delegates (for 0, 1, 2, and 3 dependencies)
+// Synchronous and asynchronous step function delegates (for 0, 1, 2, and 3 dependencies)
 
 public delegate TContext StepFunc<TContext>(TContext context);
 public delegate TContext StepFunc<TContext, in T1>(TContext context, T1 dep1);

@@ -13,24 +13,27 @@ public record FuncPipelineStep
         Name = name;
     }
 
-    public static FuncPipelineStep Create<TContext>(
-        StepFuncAsync<TContext> stepFunc, string stepName = ""
-    ) =>
+    public static FuncPipelineStep Create<TContext>(string stepName, StepFunc<TContext> stepFunc) =>
         new(stepFunc, [], stepName);
 
-    public static FuncPipelineStep Create<TContext, T1>(
-        StepFuncAsync<TContext, T1> stepFunc, string stepName = ""
-    ) =>
+    public static FuncPipelineStep Create<TContext, T1>(string stepName, StepFunc<TContext, T1> stepFunc) =>
         new(stepFunc, [typeof(T1)], stepName);
 
-    public static FuncPipelineStep Create<TContext, T1, T2>(
-        StepFuncAsync<TContext, T1, T2> stepFunc, string stepName = ""
-    ) =>
+    public static FuncPipelineStep Create<TContext, T1, T2>(string stepName, StepFunc<TContext, T1, T2> stepFunc) =>
         new(stepFunc, [typeof(T1), typeof(T2)], stepName);
 
-    public static FuncPipelineStep Create<TContext, T1, T2, T3>(
-        StepFuncAsync<TContext, T1, T2, T3> stepFunc, string stepName = ""
-    ) =>
+    public static FuncPipelineStep Create<TContext, T1, T2, T3>(string stepName, StepFunc<TContext, T1, T2, T3> stepFunc) =>
         new(stepFunc, [typeof(T1), typeof(T2), typeof(T3)], stepName);
 
+    public static FuncPipelineStep Create<TContext>(string stepName, StepFuncAsync<TContext> stepFunc) =>
+        new(stepFunc, [], stepName);
+
+    public static FuncPipelineStep Create<TContext, T1>(string stepName, StepFuncAsync<TContext, T1> stepFunc) =>
+        new(stepFunc, [typeof(T1)], stepName);
+
+    public static FuncPipelineStep Create<TContext, T1, T2>(string stepName, StepFuncAsync<TContext, T1, T2> stepFunc) =>
+        new(stepFunc, [typeof(T1), typeof(T2)], stepName);
+
+    public static FuncPipelineStep Create<TContext, T1, T2, T3>(string stepName, StepFuncAsync<TContext, T1, T2, T3> stepFunc) =>
+        new(stepFunc, [typeof(T1), typeof(T2), typeof(T3)], stepName);
 }

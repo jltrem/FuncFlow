@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncFlow", "src\FuncFlow\Fu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncFlow.Tests", "tests\FuncFlow.Tests\FuncFlow.Tests.csproj", "{8044139C-6A92-4548-BB8B-80F60A6FDDA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "simple_func_pipeline", "samples\simple_func_pipeline\simple_func_pipeline.csproj", "{C9D61712-308C-4EAA-8EC8-DC4D0D930283}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,9 +27,14 @@ Global
 		{8044139C-6A92-4548-BB8B-80F60A6FDDA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8044139C-6A92-4548-BB8B-80F60A6FDDA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8044139C-6A92-4548-BB8B-80F60A6FDDA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9D61712-308C-4EAA-8EC8-DC4D0D930283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9D61712-308C-4EAA-8EC8-DC4D0D930283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9D61712-308C-4EAA-8EC8-DC4D0D930283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9D61712-308C-4EAA-8EC8-DC4D0D930283}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9478AC0E-2F9E-4DD3-A8B4-36EF168FD47C} = {35C9F900-6C38-4682-930A-E144AA1AB0F7}
 		{8044139C-6A92-4548-BB8B-80F60A6FDDA8} = {CCA12EB3-686D-4EB9-8A81-FDE1FCFCB01D}
+		{C9D61712-308C-4EAA-8EC8-DC4D0D930283} = {C5BF83CD-2748-4D40-AE0A-18FBB66758DD}
 	EndGlobalSection
 EndGlobal
