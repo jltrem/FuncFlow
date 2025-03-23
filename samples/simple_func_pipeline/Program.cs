@@ -14,7 +14,7 @@ class Program
             .ConfigureServices((hostContext, services) =>
             {
                 services
-                    .AddLogging(builder => builder.AddConsole())
+                    .AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug))
                     .AddChuckNorrisService();
                 
                 services
