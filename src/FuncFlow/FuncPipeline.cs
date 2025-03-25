@@ -24,9 +24,9 @@ public class FuncPipeline<TContext> : IFuncPipeline<TContext>
 {
     private readonly ILogger _logger;
     private readonly IServiceProvider _provider;
-    private readonly IReadOnlyList<FuncPipelineStep> _steps;
+    private readonly IReadOnlyList<FuncPipelineStep<TContext>> _steps;
 
-    public FuncPipeline(IServiceProvider provider, IEnumerable<FuncPipelineStep> steps)
+    public FuncPipeline(IServiceProvider provider, IEnumerable<FuncPipelineStep<TContext>> steps)
     {
         _provider = provider;
         _steps = [..steps];
@@ -46,7 +46,7 @@ public class FuncPipeline<TContext> : IFuncPipeline<TContext>
         {
             throw new ArgumentOutOfRangeException(nameof(stepIndex));    
         }
-        FuncPipelineStep step = _steps[stepIndex];
+        FuncPipelineStep<TContext> step = _steps[stepIndex];
         
         var dependencies = step.DependencyTypes.Select(type => _provider.GetService(type)!).ToArray();
 

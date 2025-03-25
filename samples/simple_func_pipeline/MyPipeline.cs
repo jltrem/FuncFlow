@@ -14,30 +14,30 @@ public class MyPipeline
 {
     private readonly ILogger _logger;
     private readonly IFuncPipeline<MyPipelineContext> _pipeline;
-    
+
     public MyPipeline(ILogger<MyPipeline> logger, IFuncPipelineBuilder builder)
     {
         _logger = logger;
-        
+
         _pipeline = builder
+            .WithContext<MyPipelineContext>()
             .AddStep(
-                FuncPipelineStep.Create(
-                    "Get random joke",
-                    async (MyPipelineContext ctx, IChuckNorrisService chuckNorrisService) =>
-                    {
-                        var joke = await chuckNorrisService.GetRandomJokeAsync();
-                        ctx.JokeText = joke.Value;
-                        return ctx;
-                    })
+                "fetch random joke",
+                async (MyPipelineContext ctx, IChuckNorrisService chuckNorrisService) =>
+                {
+                    var joke = await chuckNorrisService.GetRandomJokeAsync();
+                    ctx.JokeText = joke.Value;
+                    return ctx;
+                }
             )
             .AddStep(
-                FuncPipelineStep.Create("get length", (MyPipelineContext ctx) =>
+                "get joke length", ctx =>
                 {
                     ctx.Length = ctx.JokeText!.Length;
                     return ctx;
-                })
+                }
             )
-            .Build<MyPipelineContext>();
+            .Build();
     }
 
     public async Task RunAsync()
